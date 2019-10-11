@@ -53,7 +53,7 @@ async function init( wsURL ) {
 	    refresh_lists: async function( context ) {
 		if ( !HoloFuel )
 		    return console.log("HoloFuel API not ready yet");
-		
+
 		this.dispatch( 'get_transactions' );
 		this.dispatch( 'get_pending' );
 	    },
@@ -98,7 +98,7 @@ async function init( wsURL ) {
 		    () => this.dispatch('refresh_lists'), 10000
 		);
 		context.commit('set_auto_fetch_interval_id', iid);
-		
+
 		await connectionReady();
 		this.dispatch( 'refresh_lists' );
 	    },
@@ -107,6 +107,7 @@ async function init( wsURL ) {
 
     async function initializeWsConnection( port ) {
 	HoloFuel				= await connect('ws://localhost:' + port);
+  console.log("Connection: ", HoloFuel);
 	global.HF__debug			= HoloFuel;
 
 	store.dispatch('get_whoami');
@@ -118,5 +119,5 @@ async function init( wsURL ) {
 	initializeWsConnection,
     };
 }
-    
+
 export default init;

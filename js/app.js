@@ -7,7 +7,7 @@ import state_manager				from "./state-manager.js";
 import notify					from "./notify.js";
 import { mapState, mapMutations, mapActions }	from 'vuex'
 
-const DEFAULT_WS_PORT				= 3000;
+const DEFAULT_WS_PORT				= 10000;
 
 Vue.filter('currency', function (value) {
     const amount				= parseFloat( value );
@@ -52,7 +52,7 @@ Vue.filter('currency', function (value) {
     const now_plus_hours			= function ( hours ) {
 	const now				= new Date();
 	const h					= parseFloat( hours );
-	
+
 	now.setTime( now.getTime() + ( h * 60*60*1000 ) );
 	const deadline				= now.toISOString();
 	return deadline;
@@ -78,7 +78,7 @@ Vue.filter('currency', function (value) {
 	  "outgoing/error"
 	*/
 	const [type, state]			= state_str.split('/');
-	
+
 	return {
 	    type,
 	    unknown:  type === 'unknown',
@@ -212,7 +212,7 @@ Vue.filter('currency', function (value) {
 		    const promise			= promise_preauth.event[2].Promise
 		    const promise_sig			= promise_preauth.provenance[1];
 		    const promise_commit		= promise_preauth.event[0];
-		    
+
 		    notify.open({
 			type: 'info',
 			message: "Receiving payment",
@@ -237,6 +237,9 @@ Vue.filter('currency', function (value) {
 	},
 	"/:port/promise": {
 	    "template": (await import('./promise.html')).default,
+      "created": function () {
+    initializeWsConnection( this.$route.params.port || DEFAULT_WS_PORT );
+      },
 	    "data": function() {
 		return {
 		    "confirm_promise": false,
@@ -281,7 +284,7 @@ Vue.filter('currency', function (value) {
 		    this.receiver_id			= null;
 		    this.amount				= "0.00";
 		    this.notes				= null;
-		    
+
 		    this.$router.push( this.$root.relative('/') );
 		},
 		...mapActions([
@@ -290,6 +293,9 @@ Vue.filter('currency', function (value) {
 	},
 	"/:port/request": {
 	    "template": (await import('./request.html')).default,
+      "created": function () {
+    initializeWsConnection( this.$route.params.port || DEFAULT_WS_PORT );
+      },
 	    "data": function() {
 		return {
 		    "confirm_request": false,
@@ -344,7 +350,7 @@ Vue.filter('currency', function (value) {
     }
     routes.push({
 	path: '/',
-	redirect: '/3000/',
+	redirect: '/10000/',
     });
     console.log( routes );
 
@@ -388,5 +394,5 @@ Vue.filter('currency', function (value) {
     }).$mount('#app');
 
     global.App					= app;
-    
+
 })(window);

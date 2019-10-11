@@ -79,7 +79,7 @@ to the Send and Request funds pages can be found.
    $ python -m SimpleHTTPServer
    #+END_EXAMPLE
 
-   This will redirect you to [[http://localhost:8000/#/3000/]] (note the port 3000, assigned to the first "bootstrap" agent).
+   This will redirect you to [[http://localhost:8000/#/10000/]] (note the port 10000, assigned to the first "bootstrap" agent).
 
    Any subsequent agents you started (above), will be assigned ports starting at 3100,
    eg. [[http://localhost:8000/#/3100/]], [[http://localhost:8000/#/3101/]], ...

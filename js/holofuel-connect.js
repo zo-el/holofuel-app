@@ -4,7 +4,7 @@ async function init( wsURL ) {
     const {call, callZome, close}		= await connect( wsURL );
 
     function mapZomeMethod( method_name ) {
-	const zomeMethod			= callZome( 'test-instance', 'transactions', method_name );
+	const zomeMethod			= callZome( 'holofuel', 'transactions', method_name );
 	return async function ( params ) {
 	    try {
 		const resp			= JSON.parse(await zomeMethod( params || {} ));
